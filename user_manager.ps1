@@ -21,13 +21,6 @@ function user_help {
     Write-Host "-p    Manipulate user privileges" 
 }
 
-function test_args() {
-
-    Write-Host "here is arg 0: $($args[0])"
-    Write-Host "here is arg 1: $($args[1])"
-
-}
-
 #main loop 
 Write-Host "User management script by Colson Swope" 
 Write-Host ""
