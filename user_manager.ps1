@@ -21,6 +21,24 @@ function user_help {
     Write-Host "-p    Manipulate user privileges" 
 }
 
+function user_manager {
+
+    
+
+}
+
+function user_info { 
+
+    
+
+}
+
+function privilege_manipulation {
+
+    
+
+}
+
 #main loop 
 Write-Host "User management script by Colson Swope" 
 Write-Host ""
@@ -35,19 +53,18 @@ else {
     $choice = $args[0]
     
     switch ($choice) {
-        "1" {
-            
+        "-m" {
+            user_manager
         }
-        "2" {
-        
+        "-i" {
+            user_info
         }
-        "3" {
-        
+        "-p" {
+            privilege_manipulation
         }
         default {
             Write-Host "Error: Not a valid argument,see proper usage below" 
             user_help
         }
     }
-
 }
