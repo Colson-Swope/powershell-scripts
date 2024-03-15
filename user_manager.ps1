@@ -1,13 +1,15 @@
+# Name: Colson Swope
+# Date: 3/15/2024 
+# Description: 
+
+# Resources used: 
 # https://superuser.com/questions/608931/list-all-user-accounts-on-a-windows-system-via-command-line
 # https://learn.microsoft.com/en-us/powershell
 
-# function for user help 
+####################################################################################################
 
-# EXIT CODES (ZERO FOR SUCCESS, NONZERO FOR FAIL 
-# COMMENT BLOCK TELLING WHAT SCRIPT DOES AND PARAMETERS IT TAKES (INCLUDE NAME AND DATE) 
-# SCRIPT COMMENTS AT A USEFUL LEVEL 
-# PROPER ERROR MESSAGES 
-
+# function that explains what the program does 
+# function is called whenever user does not use the program correctly 
 function user_help {
     Write-Host ""
     Write-Host "Usage: .\user_manager.ps1 [-arguments]" 
@@ -17,12 +19,16 @@ function user_help {
     Write-Host "-m    Manage users (create, modify, and delete)" 
     Write-Host "-i    Display user information" 
     Write-Host "-p    Manipulate user privileges" 
+    Write-Host ""
 }
 
+# function that creates, deletes, and modifies local user accounts 
+# options to modify the user account description are available as well 
 function user_manager {
 
     $action = Read-Host "Choose action: ((c)reate, (d)elete, (m)odify)"
 
+    # perform user management actions based on the provided input 
     switch ($action) {
         "c" {
 
@@ -66,20 +72,28 @@ function user_manager {
                 }
                 default {
                     Write-Host "Invalid action. Please try again" 
+
+                    Write-Host "Arguments out of range. (1)" 
+                    Write-Error "Arguments out of range. (1)" 2> error.log
+                    exit 1 
                 }
             }
         }
         default {
-            Write-Host "Invalid action. Please try again."
+            Write-Host "Arguments out of range. (2)" 
+            Write-Error "Arguments out of range. (2)" 2> error.log
+            exit 1 
         }
     }
 
 }
 
+# function that retrieves information on the local created user accounts 
 function user_info { 
 
     $action = Read-Host "Choose action: ((s)how all user accounts, (g)et user description)"
 
+    # perform user info actions based on provided input 
     switch ($action) {
         "s" {
             # get list of user accounts 
@@ -92,16 +106,22 @@ function user_info {
             Get-LocalUser -Name "$userdesc" | Select-Object Name, Description
         }
         default {
-            Write-Host "Error: Not a valid argument,see proper usage below" 
+            Write-Host "Arguments out of range. (3)" 
+            Write-Host "" 
+            Write-Error "Arguments out of range. (3)" 2> error.log
+            exit 1  
             user_help
         }
     }
 }
 
+# function that passes arguments to another script 
+# used for adding and removing specified user permissions 
 function privilege_manipulation {
 
     $targetuser = Read-Host "Enter target user account"
     $permdesc = Read-Host "Do you want to (a)dd or (r)emove permissions" 
+
 
     switch ($permdesc) {
         "r" {
@@ -111,7 +131,10 @@ function privilege_manipulation {
             $desiredaction = Read-Host "Enter permissions to add"
         }
         default {
-            Write-Host "ERROR" 
+            Write-Host "Arguments out of range. (4)" 
+            Write-Host "" 
+            Write-Error "Arguments out of range. (4)" 2> error.log
+            exit 1
         }
     }
 
@@ -123,28 +146,40 @@ function privilege_manipulation {
 Write-Host "User management script by Colson Swope" 
 Write-Host ""
 
+# provide error if arguments are not provided 
 if ($args.Count -eq 0) {
-    Write-Host "Error: No arguments provided, see proper usage below" 
-    user_help 
+    Write-Host "No arguments provided, see proper usage below. " 
+    Write-Host ""
+    Write-Error "No arguments provided, see proper usage below. (5)" 2> error.log
+    user_help
+    exit 1
+     
 
 }
 else {
 
     $choice = $args[0]
     
+    # call a function associated with the specified user input 
     switch ($choice) {
         "-m" {
             user_manager
+            exit 0 
         }
         "-i" {
             user_info
+            exit 0 
         }
         "-p" {
             privilege_manipulation
+            exit 0 
         }
         default {
-            Write-Host "Error: Not a valid argument,see proper usage below" 
+            Write-Host "Arguments out of range. See proper usage below. (6)" 
+            Write-Host "" 
+            Write-Error "Arguments out of range. See proper usage below. (6)" 2> error.log
             user_help
+            exit 1
         }
     }
 }
