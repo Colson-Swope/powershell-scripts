@@ -100,9 +100,23 @@ function user_info {
 
 function privilege_manipulation {
 
-    # ACCEPT OBJECT FROM ANOTHER SCRIPT 
-    # PASS OBJECT TO ANOTHER SCRIPT  
+    $targetuser = Read-Host "Enter target user account"
+    $permdesc = Read-Host "Do you want to (a)dd or (r)emove permissions" 
 
+    switch ($permdesc) {
+        "r" {
+            $desiredaction = Read-Host "Enter permissions to remove"
+        }
+        "a" {
+            $desiredaction = Read-Host "Enter permissions to add"
+        }
+        default {
+            Write-Host "ERROR" 
+        }
+    }
+
+    # PASS OBJECT TO ANOTHER SCRIPT  
+    .\permission_manager.ps1 $targetuser $desiredaction $permdesc
 }
 
 #main loop 
