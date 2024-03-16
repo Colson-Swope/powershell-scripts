@@ -1,6 +1,8 @@
 # Name: Colson Swope
 # Date: 3/15/2024 
-# Description: 
+# Description: This is a script that an administrative professional can use for 
+# efficient user account management, and for gathering information on these accounts. 
+# This script can be used to strictly manage permissions for these user accounts as well. 
 
 # Resources used: 
 # https://superuser.com/questions/608931/list-all-user-accounts-on-a-windows-system-via-command-line
